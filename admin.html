@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель | OYU</title>
+    <link rel="icon" href="./logo/Artboard 1 copy 2.png" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="logo/Artboard 1 copy 3.png" alt="OYU Logo">
+        </a>
+
+        <nav id="nav">
+            <a href="index.html#about">О студии</a>
+            <a href="index.html#styles">Стили</a>
+            <a href="projects.html">Проекты</a>
+
+        </nav>
+
+        <div class="burger" id="burger">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <div class="page-fade-in">
+        <div id="loginSection">
+            <h1>Admin Login</h1>
+            <input type="password" id="adminPass" placeholder="Пароль">
+            <button class="btn-main" onclick="login()">Войти</button>
+        </div>
+
+        <div id="adminPanel" style="display: none;">
+            <h1>Панель управления</h1>
+
+            <section>
+                <h2>Проекты</h2>
+                <div class="input-group">
+                    <label>Название проекта</label>
+                    <input type="text" id="projectTitle" placeholder="Пример: Современный лофт">
+                </div>
+                <div class="input-group">
+                    <label>Главное фото (прямая ссылка URL)</label>
+                    <input type="text" id="projectImg"
+                        placeholder="Вставьте ссылку на фото (Google Drive, Unsplash и др.)">
+                </div>
+                <div class="input-group">
+                    <label>Доп. фото (ссылки через запятую)</label>
+                    <input type="text" id="projectGallery" placeholder="url1, url2, url3...">
+                </div>
+                <div class="input-group">
+                    <label>Описание</label>
+                    <textarea id="projectInfo" placeholder="Расскажите о проекте..."></textarea>
+                </div>
+                <button class="btn-main" id="addProjectBtn" onclick="addProject()">Добавить проект</button>
+                <div id="projectList" class="admin-list"></div>
+            </section>
+
+            <section>
+                <h2>Стили</h2>
+                <div class="input-group">
+                    <label>Название стиля</label>
+                    <input type="text" id="styleTitle" placeholder="Пример: Джапанди">
+                </div>
+                <div class="input-group">
+                    <label>Главное фото (прямая ссылка URL)</label>
+                    <input type="text" id="styleImg" placeholder="Вставьте ссылку на фото">
+                </div>
+                <div class="input-group">
+                    <label>Доп. фото (ссылки через запятую)</label>
+                    <input type="text" id="styleGallery" placeholder="url1, url2, url3...">
+                </div>
+                <div class="input-group">
+                    <label>Описание</label>
+                    <textarea id="styleInfo" placeholder="Опишите особенности стиля..."></textarea>
+                </div>
+                <button class="btn-main" id="addStyleBtn" onclick="addStyle()">Добавить стиль</button>
+                <div id="styleList" class="admin-list"></div>
+            </section>
+
+            <section>
+                <h2>Контакты</h2>
+                <div class="input-group">
+                    <label>Телефон</label>
+                    <input type="text" id="phone">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="text" id="email">
+                </div>
+                <button class="btn-main" onclick="saveContacts()">Сохранить контакты</button>
+            </section>
+
+            <section>
+                <h2>Резервная копия (JSON)</h2>
+                <button class="btn-main" onclick="exportData()">Экспорт (Backup)</button>
+                <div class="input-group" style="margin-top: 20px;">
+                    <label>Импорт файла</label>
+                    <input type="file" onchange="importData(event)">
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase-app.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

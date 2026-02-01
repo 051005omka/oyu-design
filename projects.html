@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Проекты | OYU</title>
+    <link rel="icon" href="./logo/Artboard 1 copy 2.png" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="logo/Artboard 1 copy 3.png" alt="OYU Logo">
+        </a>
+
+        <nav id="nav">
+            <a href="index.html#about">О студии</a>
+            <a href="index.html#styles">Готовые проекты</a>
+            <a href="projects.html">Проекты</a>
+
+        </nav>
+
+        <div class="burger" id="burger">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <div class="page-fade-in">
+        <section id="projects" class="projects">
+            <h1 class="reveal">Примеры работ</h1>
+            <div class="project-grid" id="projectsGrid"></div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <div id="contactsDisplay"></div>
+                <p>© OYU Design Group</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://t.me/+996997007755" target="_blank" title="Telegram"><i
+                        class="fab fa-telegram"></i></a>
+                <a href="https://wa.me/996997007755" target="_blank" title="WhatsApp"><i
+                        class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/oyu.design.group?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase-app.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

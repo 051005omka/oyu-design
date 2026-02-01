@@ -1,0 +1,210 @@
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+
+:root {
+    --primary: #003129;
+    --primary-light: #004d40;
+    --accent: #86321a;
+    --accent-hover: #9d3e23;
+    --dark: #fdfdfd;
+    --light: #003129;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+body {
+    background: var(--primary);
+    color: white;
+    margin: 0;
+    font-family: 'SF Pro Display', sans-serif;
+    min-height: 100vh;
+}
+
+#loginSection,
+#adminPanel {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 60px;
+    border-radius: 18px;
+    border: 1px solid var(--glass-border);
+    max-width: 1000px;
+    margin: 140px auto 60px;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+    transition: var(--transition);
+}
+
+#loginSection {
+    max-width: 420px;
+    text-align: center;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'SF Pro Display', sans-serif;
+    color: var(--accent);
+    margin-bottom: 30px;
+    font-weight: 800;
+}
+
+h1 {
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h2 {
+    font-size: 24px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px;
+    margin-top: 40px;
+    color: white;
+}
+
+section {
+    margin-bottom: 50px;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 18px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    color: white;
+    border-radius: 12px;
+    outline: none;
+    transition: var(--transition);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+textarea {
+    height: 140px;
+    resize: vertical;
+}
+
+/* LIST ITEMS */
+.admin-list {
+    margin-top: 30px;
+    display: grid;
+    gap: 15px;
+}
+
+.admin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.admin-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(5px);
+    border-color: var(--accent);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.admin-actions button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-edit {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-edit:hover {
+    background: white;
+    color: black;
+}
+
+.btn-delete {
+    background: rgba(220, 50, 50, 0.2);
+    color: #ff8e8e;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+    color: white;
+}
+
+/* MAIN BUTTONS */
+button.btn-main {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: var(--transition);
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button.btn-main:hover {
+    background: var(--accent-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.images-help {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 8px;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}

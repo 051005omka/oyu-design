@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OYU Design Group</title>
+    <link rel="icon" href="./logo/Artboard 1 copy 2.png" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="logo/Artboard 1 copy 3.png" alt="OYU Logo">
+        </a>
+
+        <nav id="nav">
+            <a href="index.html#about">О студии</a>
+            <a href="index.html#styles">Готовые проекты</a>
+            <a href="projects.html">Проекты</a>
+        </nav>
+
+        <div class="burger" id="burger">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <div class="page-fade-in">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Индивидуальный подход к каждому проекту!</h1>
+                <p>Современный дизайн жилых и коммерческих помещений</p>
+                <a class="btn" href="projects.html">Смотреть проекты</a>
+            </div>
+        </section>
+
+        <section id="about" class="about reveal">
+            <div class="about-content">
+                <h2>OYU</h2>
+                <p>
+                    OYU Design Group — студия интерьерного дизайна, создающая индивидуальные и функциональные
+                    пространства, отражающие стиль жизни и ценности клиента.
+                    Мы работаем с частными интерьерами и сопровождаем клиентов с момента приобретения недвижимости,
+                    помогая сформировать концепцию, раскрыть потенциал пространства и избежать ошибок на этапе
+                    проектирования и реализации.
+                    Наша команда ведёт проект от идеи до финального результата, обеспечивая высокий уровень качества,
+                    внимание к деталям и продуманные дизайнерские решения, актуальные вне времени.
+                    <br>OYU Design Group — это баланс эстетики, комфорта и профессионального подхода.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="backgrounds/photo_2026-02-01_19-03-13.jpg" alt="OYU Design Team/Process">
+            </div>
+        </section>
+
+        <section id="styles" class="styles reveal">
+            <h2 class="reveal">Готовые проекты</h2>
+            <div class="style-grid" id="stylesGrid"></div>
+        </section>
+
+        <section id="contactForm" class="contact reveal">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Создадим интерьер <br>вашей мечты</h2>
+                    <p>Мы открыты к новым проектам и амбициозным задачам. Оставьте заявку, и наш ведущий дизайнер
+                        свяжется с вами для консультации.</p>
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <span>Напишите нам</span>
+                            <a href="mailto:oyudesigngroup@gmail.com">oyudesigngroup@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <span>Позвоните нам</span>
+                            <a href="tel:+996997007755" id="phoneLink">+996 997 00 77 55</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-box">
+                    <form id="actualContactForm">
+                        <div class="input-field">
+                            <input required type="text" id="userName" name="name" placeholder=" ">
+                            <label>Ваше имя</label>
+                        </div>
+                        <div class="input-field">
+                            <input required type="email" id="userEmail" name="email" placeholder=" ">
+                            <label>Email</label>
+                        </div>
+                        <div class="input-field">
+                            <textarea id="userMessage" name="message" placeholder=" "></textarea>
+                            <label>Расскажите о проекте</label>
+                        </div>
+                        <button type="submit" class="btn btn-full">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <div id="contactsDisplay"></div>
+                <p>© OYU Design Group</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://t.me/+996997007755" target="_blank" title="Telegram"><i
+                        class="fab fa-telegram"></i></a>
+                <a href="https://wa.me/996997007755" target="_blank" title="WhatsApp"><i
+                        class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/oyu.design.group?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase-app.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
