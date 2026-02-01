@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница не найдена</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        a {
+            padding: 15px 30px;
+            background-color: #fff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>404</h1>
+    <p>Кажется, вы заблудились. Такой страницы нет.</p>
+    <!-- Automatic redirect to home in 3 seconds -->
+    <meta http-equiv="refresh" content="3;url=index.html" />
+    <a href="index.html">Вернуться на главную</a>
+    <script>
+        // Fallback for GitHub Pages SPA routing (Optional fix)
+        // If the user lands here, we try to redirect them to the home page
+        if (window.location.pathname.endsWith('/')) {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>

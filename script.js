@@ -1,5 +1,13 @@
 const PASSWORD = "admin123";
 
+/* FORCE CLEAR LEGACY DATA ONCE */
+if (!localStorage.getItem("data_wiped_v2")) {
+    localStorage.removeItem("projects");
+    localStorage.removeItem("styles");
+    localStorage.setItem("data_wiped_v2", "true");
+    console.log("Legacy data wiped.");
+}
+
 /* LOGIN */
 async function login() {
     const btn = event?.target || document.querySelector('#loginSection button');
@@ -68,6 +76,12 @@ const initialProjects = defaultProjects;
 const initialStyles = defaultStyles;
 
 async function initData() {
+    // Show Loading
+    const gridP = document.getElementById("projectsGrid");
+    const gridS = document.getElementById("stylesGrid");
+    if (gridP) gridP.innerHTML = '<div class="loader" style="text-align:center; width:100%; padding: 40px;">Загрузка проектов...</div>';
+    if (gridS) gridS.innerHTML = '<div class="loader" style="text-align:center; width:100%; padding: 40px;">Загрузка стилей...</div>';
+
     if (db) {
         try {
             // Projects
@@ -75,9 +89,7 @@ async function initData() {
             if (!pSnap.empty) {
                 projects = pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             } else {
-                // Seed Firestore if empty? Use defaults.
-                // Optional: Upload defaults to Firestore (Admin only ideally, but ok here)
-                projects = initialProjects;
+                projects = []; // Ensure empty array if no docs
             }
 
             // Styles
@@ -85,12 +97,14 @@ async function initData() {
             if (!sSnap.empty) {
                 stylesList = sSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             } else {
-                stylesList = initialStyles;
+                stylesList = []; // Ensure empty array
             }
             console.log("Data loaded from Firebase");
         } catch (e) {
             console.error("Error loading from Firebase:", e);
-            loadLocal();
+            // On error, fall back to empty local
+            projects = [];
+            stylesList = [];
         }
     } else {
         loadLocal();
@@ -98,7 +112,7 @@ async function initData() {
 
     renderProjects();
     renderStyles();
-    loadContacts(); // Contacts also need to be async-capable if in DB
+    loadContacts();
 }
 
 function loadLocal() {
