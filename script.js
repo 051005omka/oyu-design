@@ -56,59 +56,9 @@ document.getElementById("adminPass")?.addEventListener("keypress", (e) => {
 
 /* DATA */
 /* DATA */
-const defaultProjects = [
-    {
-        title: "Минималистичная гостиная",
-        img: "https://images.unsplash.com/photo-1616489953149-80497ca194ca?auto=format&fit=crop&q=80&w=1000",
-        info: "Просторная гостиная в стиле мягкого минимализма. Использованы натуральные материалы, скрытое освещение и панорамное остекление для создания атмосферы спокойствия.",
-        images: [
-            "https://images.unsplash.com/photo-1616489953149-80497ca194ca?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1000"
-        ]
-    },
-    {
-        title: "Современная кухня",
-        img: "https://images.unsplash.com/photo-1556911220-e15224bbaf40?auto=format&fit=crop&q=80&w=1000",
-        info: "Высокотехнологичная кухня с интегрированной техникой и островом из натурального камня. Сочетание темных матовых поверхностей и теплого дерева.",
-        images: [
-            "https://images.unsplash.com/photo-1556911220-e15224bbaf40?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=1000"
-        ]
-    },
-    {
-        title: "Скандинавская спальня",
-        img: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=1000",
-        info: "Уютная спальня, вдохновленная северной природой. Светлые тона, много текстиля и функциональные зоны хранения.",
-        images: [
-            "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&q=80&w=1000"
-        ]
-    }
-];
+const defaultProjects = [];
 
-const defaultStyles = [
-    {
-        title: "Минимализм",
-        img: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=1000",
-        info: "Философия 'меньше значит больше'. Чистые линии, отсутствие визуального шума и акцент на качестве материалов и пропорциях.",
-        images: [
-            "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&q=80&w=1000"
-        ]
-    },
-    {
-        title: "Скандинавский",
-        img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1000",
-        info: "Стиль, объединяющий свет, простоту и функциональность. Использование светлого дерева, белых стен и ярких цветовых акцентов в декоре.",
-        images: [
-            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1000",
-            "https://images.unsplash.com/photo-1554995207-c18c20360a59?auto=format&fit=crop&q=80&w=1000"
-        ]
-    }
-];
+const defaultStyles = [];
 
 let projects = [];
 let stylesList = [];
@@ -168,41 +118,65 @@ let editingStyleIndex = -1;
 function renderProjects() {
     const grid = document.getElementById("projectsGrid");
     const list = document.getElementById("projectList");
-    if (grid) grid.innerHTML = projects.map((p, i) =>
-        `<div class="project-card" onclick="openModal('projects', ${i})">
-            <img src="${fixLink(p.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
-            <span>${p.title}</span>
-        </div>`
-    ).join("");
-    if (list) list.innerHTML = projects.map((p, i) =>
-        `<div class="admin-item">
-            <span>${p.title}</span> 
-            <div class="admin-actions">
-                <button class="btn-edit" onclick="editProject(${i})">Редактировать</button>
-                <button class="btn-delete" onclick="deleteProject(${i})">Удалить</button>
-            </div>
-        </div>`
-    ).join("");
+
+    // Grid (Public View)
+    if (grid) {
+        if (projects.length === 0) {
+            grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Проекты пока не добавлены.</p>';
+        } else {
+            grid.innerHTML = projects.map((p, i) =>
+                `<div class="project-card" onclick="openModal('projects', ${i})">
+                    <img src="${fixLink(p.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
+                    <span>${p.title}</span>
+                </div>`
+            ).join("");
+        }
+    }
+
+    // List (Admin View)
+    if (list) {
+        list.innerHTML = projects.map((p, i) =>
+            `<div class="admin-item">
+                <span>${p.title}</span> 
+                <div class="admin-actions">
+                    <button class="btn-edit" onclick="editProject(${i})">Редактировать</button>
+                    <button class="btn-delete" onclick="deleteProject(${i})">Удалить</button>
+                </div>
+            </div>`
+        ).join("");
+    }
 }
 
 function renderStyles() {
     const grid = document.getElementById("stylesGrid");
     const list = document.getElementById("styleList");
-    if (grid) grid.innerHTML = stylesList.map((s, i) =>
-        `<div class="style-card" onclick="openModal('styles', ${i})">
-            <img src="${fixLink(s.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
-            <h3>${s.title}</h3>
-        </div>`
-    ).join("");
-    if (list) list.innerHTML = stylesList.map((s, i) =>
-        `<div class="admin-item">
-            <span>${s.title}</span> 
-            <div class="admin-actions">
-                <button class="btn-edit" onclick="editStyle(${i})">Редактировать</button>
-                <button class="btn-delete" onclick="deleteStyle(${i})">Удалить</button>
-            </div>
-        </div>`
-    ).join("");
+
+    // Grid (Public View)
+    if (grid) {
+        if (stylesList.length === 0) {
+            grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Стили пока не добавлены.</p>';
+        } else {
+            grid.innerHTML = stylesList.map((s, i) =>
+                `<div class="style-card" onclick="openModal('styles', ${i})">
+                    <img src="${fixLink(s.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
+                    <h3>${s.title}</h3>
+                </div>`
+            ).join("");
+        }
+    }
+
+    // List (Admin View)
+    if (list) {
+        list.innerHTML = stylesList.map((s, i) =>
+            `<div class="admin-item">
+                <span>${s.title}</span> 
+                <div class="admin-actions">
+                    <button class="btn-edit" onclick="editStyle(${i})">Редактировать</button>
+                    <button class="btn-delete" onclick="deleteStyle(${i})">Удалить</button>
+                </div>
+            </div>`
+        ).join("");
+    }
 }
 
 /* MODAL LOGIC */
