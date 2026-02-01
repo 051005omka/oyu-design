@@ -1,4 +1,4 @@
-const PASSWORD = "admin123";
+const PASSWORD = "luiza25041999";
 
 /* FORCE CLEAR LEGACY DATA ONCE */
 if (!localStorage.getItem("data_wiped_v2")) {

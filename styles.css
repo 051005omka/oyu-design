@@ -390,8 +390,29 @@ h3,
         gap: 60px;
     }
 
+    /* Fix for About Image on Mobile */
+    .about-image {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
     .about-image img {
-        height: 400px;
+        width: 100%;
+        height: auto;
+        /* Allow height to adjust automatically based on image ratio */
+        max-height: 500px;
+        /* Optional cap so it's not too tall */
+        object-fit: contain;
+        /* Show FULL image, no cropping */
+    }
+
+    .about-image::after {
+        /* Adjust border frame to match image size */
+        height: 100%;
+        width: 100%;
+        top: 15px;
+        right: -15px;
     }
 }
 
@@ -693,6 +714,41 @@ h3,
 
     .contact-form-box {
         padding: 40px 30px;
+    }
+
+    /* Footer Mobile Adjustments */
+    .footer {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .footer-left {
+        order: 2;
+        /* Move copyright/contacts to bottom */
+    }
+
+    .footer-social {
+        flex-direction: column;
+        /* Stack icons vertically */
+        gap: 20px;
+        order: 1;
+        /* Move socials to top */
+        width: 100%;
+        align-items: center;
+    }
+
+    .footer-social a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        max-width: 200px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
     }
 }
 
