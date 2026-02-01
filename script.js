@@ -141,7 +141,9 @@ function renderProjects() {
             grid.innerHTML = projects.map((p, i) =>
                 `<div class="project-card" onclick="openModal('projects', ${i})">
                     <img src="${fixLink(p.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
-                    <span>${p.title}</span>
+                    <div class="card-overlay">
+                        <h3>${p.title}</h3>
+                    </div>
                 </div>`
             ).join("");
         }
@@ -173,7 +175,9 @@ function renderStyles() {
             grid.innerHTML = stylesList.map((s, i) =>
                 `<div class="style-card" onclick="openModal('styles', ${i})">
                     <img src="${fixLink(s.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
-                    <h3>${s.title}</h3>
+                    <div class="card-overlay">
+                        <h3>${s.title}</h3>
+                    </div>
                 </div>`
             ).join("");
         }
@@ -329,18 +333,60 @@ function fixLink(link) {
     return s;
 }
 
-/* CRUD */
-/* CRUD */
+/* DYNAMIC GALLERY INPUTS */
+function addGalleryInput(containerId, className, value = "") {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const div = document.createElement("div");
+    div.className = "dynamic-input";
+    div.style.display = "flex";
+    div.style.gap = "10px";
+    div.style.marginBottom = "10px";
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = className;
+    input.placeholder = "Ссылка на фото";
+    input.value = value;
+    input.style.flex = "1";
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.innerText = "X";
+    btn.style.background = "#86321a";
+    btn.style.color = "white";
+    btn.style.border = "none";
+    btn.style.padding = "5px 10px";
+    btn.style.cursor = "pointer";
+    btn.onclick = function () { container.removeChild(div); };
+
+    div.appendChild(input);
+    div.appendChild(btn);
+    container.appendChild(div);
+}
+
+function getGalleryValues(className) {
+    const inputs = document.querySelectorAll(`.${className}`);
+    const links = [];
+    inputs.forEach(input => {
+        const val = input.value.trim();
+        if (val) links.push(fixLink(val));
+    });
+    return links;
+}
+
+/* ADMIN ACTIONS */
 async function addProject() {
     const title = document.getElementById("projectTitle").value;
     const imgInput = document.getElementById("projectImg").value;
-    const galleryInput = document.getElementById("projectGallery")?.value;
     const info = document.getElementById("projectInfo")?.value;
 
-    if (!title || !imgInput) return alert("Заполните все поля");
+    const galleryArr = getGalleryValues('project-gallery-item');
+
+    if (!title || !imgInput) return alert("Заполните название и главное фото");
 
     const img = fixLink(imgInput.trim());
-    const galleryArr = galleryInput ? galleryInput.split(',').map(s => fixLink(s.trim())).filter(s => s !== "") : [];
     const images = [img, ...galleryArr];
     const projectData = { title, img, info, images };
 
@@ -384,8 +430,10 @@ async function addProject() {
     // Clear inputs
     document.getElementById("projectTitle").value = "";
     document.getElementById("projectImg").value = "";
-    if (document.getElementById("projectGallery")) document.getElementById("projectGallery").value = "";
-    if (document.getElementById("projectInfo")) document.getElementById("projectInfo").value = "";
+    document.getElementById("projectInfo").value = "";
+    // Reset gallery inputs
+    const container = document.getElementById("projectGalleryContainer");
+    if (container) container.innerHTML = '<div class="dynamic-input"><input type="text" class="project-gallery-item" placeholder="Ссылка на фото"></div>';
 }
 
 function editProject(i) {
@@ -394,14 +442,24 @@ function editProject(i) {
 
     document.getElementById("projectTitle").value = p.title;
     document.getElementById("projectImg").value = p.img;
-
-    // Gallery processing: exclude main image if it's the first one in images
-    const gallery = p.images ? p.images.filter(img => img !== p.img).join(", ") : "";
-    if (document.getElementById("projectGallery")) document.getElementById("projectGallery").value = gallery;
     if (document.getElementById("projectInfo")) document.getElementById("projectInfo").value = p.info || "";
 
     const btn = document.getElementById("addProjectBtn");
     if (btn) btn.innerText = "Сохранить изменения";
+
+    // Populate gallery inputs
+    const container = document.getElementById("projectGalleryContainer");
+    if (container) {
+        container.innerHTML = "";
+        // Skip first image as it is the main one, adding rest to inputs
+        const galleryImages = projects[i].images.slice(1);
+        if (galleryImages.length > 0) {
+            galleryImages.forEach(src => addGalleryInput('projectGalleryContainer', 'project-gallery-item', src));
+        } else {
+            // Add one empty if none
+            addGalleryInput('projectGalleryContainer', 'project-gallery-item');
+        }
+    }
 
     window.scrollTo({ top: document.querySelector('#adminPanel section').offsetTop, behavior: 'smooth' });
 }
@@ -427,13 +485,12 @@ async function deleteProject(i) {
 async function addStyle() {
     const title = document.getElementById("styleTitle").value;
     const imgInput = document.getElementById("styleImg").value;
-    const galleryInput = document.getElementById("styleGallery")?.value;
     const info = document.getElementById("styleInfo")?.value;
+    const galleryArr = getGalleryValues('style-gallery-item');
 
-    if (!title || !imgInput) return alert("Заполните все поля");
+    if (!title || !imgInput) return alert("Заполните название и главное фото");
 
     const img = fixLink(imgInput.trim());
-    const galleryArr = galleryInput ? galleryInput.split(',').map(s => fixLink(s.trim())).filter(s => s !== "") : [];
     const images = [img, ...galleryArr];
     const styleData = { title, img, info, images };
 
@@ -475,8 +532,9 @@ async function addStyle() {
     // Clear inputs
     document.getElementById("styleTitle").value = "";
     document.getElementById("styleImg").value = "";
-    if (document.getElementById("styleGallery")) document.getElementById("styleGallery").value = "";
-    if (document.getElementById("styleInfo")) document.getElementById("styleInfo").value = "";
+    document.getElementById("styleInfo").value = "";
+    const container = document.getElementById("styleGalleryContainer");
+    if (container) container.innerHTML = '<div class="dynamic-input"><input type="text" class="style-gallery-item" placeholder="Ссылка на фото"></div>';
 }
 
 function editStyle(i) {
@@ -485,13 +543,21 @@ function editStyle(i) {
 
     document.getElementById("styleTitle").value = s.title;
     document.getElementById("styleImg").value = s.img;
-
-    const gallery = s.images ? s.images.filter(img => img !== s.img).join(", ") : "";
-    if (document.getElementById("styleGallery")) document.getElementById("styleGallery").value = gallery;
     if (document.getElementById("styleInfo")) document.getElementById("styleInfo").value = s.info || "";
 
     const btn = document.getElementById("addStyleBtn");
     if (btn) btn.innerText = "Сохранить изменения";
+
+    const container = document.getElementById("styleGalleryContainer");
+    if (container) {
+        container.innerHTML = "";
+        const galleryImages = stylesList[i].images.slice(1);
+        if (galleryImages.length > 0) {
+            galleryImages.forEach(src => addGalleryInput('styleGalleryContainer', 'style-gallery-item', src));
+        } else {
+            addGalleryInput('styleGalleryContainer', 'style-gallery-item');
+        }
+    }
 
     // Scroll to styles section
     const sections = document.querySelectorAll('#adminPanel section');
@@ -551,11 +617,29 @@ async function loadContacts() {
 
     if (document.getElementById("phone")) document.getElementById("phone").value = contacts.phone;
     if (document.getElementById("email")) document.getElementById("email").value = contacts.email;
+
+    const cleanPhone = contacts.phone.replace(/[^+\d]/g, '');
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${contacts.email}`;
+
+    // Update Main Section (if index.html)
+    const mainPhone = document.getElementById("mainPhone");
+    const mainEmail = document.getElementById("mainEmail");
+    if (mainPhone) {
+        mainPhone.innerText = contacts.phone;
+        mainPhone.href = `tel:${cleanPhone}`;
+    }
+    if (mainEmail) {
+        mainEmail.innerText = contacts.email;
+        mainEmail.href = gmailUrl;
+        mainEmail.target = "_blank";
+    }
+
+    // Update Footer Display
     const display = document.getElementById("contactsDisplay");
     if (display) {
         display.innerHTML = `
-            <p onclick="copyToClipboard('${contacts.phone}', this)" title="Нажмите, чтобы скопировать">${contacts.phone}</p>
-            <p onclick="copyToClipboard('${contacts.email}', this)" title="Нажмите, чтобы скопировать">${contacts.email}</p>
+            <a href="tel:${cleanPhone}">${contacts.phone}</a>
+            <a href="${gmailUrl}" target="_blank">${contacts.email}</a>
         `;
     }
 }
