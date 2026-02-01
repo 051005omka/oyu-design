@@ -168,7 +168,7 @@ function renderStyles() {
     // Grid (Public View)
     if (grid) {
         if (stylesList.length === 0) {
-            grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Стили пока не добавлены.</p>';
+            grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Готовые проекты пока не добавлены.</p>';
         } else {
             grid.innerHTML = stylesList.map((s, i) =>
                 `<div class="style-card" onclick="openModal('styles', ${i})">

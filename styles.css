@@ -510,6 +510,35 @@ h3,
     transform: translateY(0);
 }
 
+/* Mobile adjustments for specific card view issues */
+@media (max-width: 768px) {
+
+    .project-card img,
+    .style-card img {
+        height: auto;
+        /* Allow auto height to show full image usually */
+        aspect-ratio: 4/3;
+        /* Enforce a standard rectangular shape */
+        object-fit: contain;
+        /* Shows full image without cropping */
+        height: 250px;
+        /* Limit height so it doesn't take full screen */
+        background: #0f0f0f;
+        /* Dark background for letterboxing effect */
+    }
+
+    .project-card span,
+    .style-card h3 {
+        padding: 15px;
+        font-size: 18px;
+        transform: translateY(0);
+        /* Always visible title on mobile */
+        background: rgba(0, 0, 0, 0.6);
+    }
+}
+
+
+
 /* CONTACT SECTION REDESIGN */
 .contact {
     padding: 160px 80px;
