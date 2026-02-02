@@ -115,7 +115,7 @@ function renderProjects() {
             grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Проекты пока не добавлены.</p>';
         } else {
             grid.innerHTML = projects.map((p, i) =>
-                `<div class="project-card" onclick="openModal('projects', ${i})">
+                `<div class="project-card reveal" onclick="openModal('projects', ${i})">
                     <img src="${fixLink(p.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
                     <div class="card-overlay">
                         <h3>${p.title}</h3>
@@ -123,6 +123,7 @@ function renderProjects() {
                 </div>`
             ).join("");
         }
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
     if (list) {
@@ -147,7 +148,7 @@ function renderStyles() {
             grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Готовые проекты пока не добавлены.</p>';
         } else {
             grid.innerHTML = stylesList.map((s, i) =>
-                `<div class="style-card" onclick="openModal('styles', ${i})">
+                `<div class="style-card reveal" onclick="openModal('styles', ${i})">
                     <img src="${fixLink(s.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
                     <div class="card-overlay">
                         <h3>${s.title}</h3>
@@ -155,6 +156,7 @@ function renderStyles() {
                 </div>`
             ).join("");
         }
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
     if (list) {
