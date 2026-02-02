@@ -49,7 +49,6 @@
 html {
     scroll-behavior: smooth;
     scrollbar-width: none;
-    /* Firefox */
 }
 
 html::-webkit-scrollbar {
@@ -63,12 +62,9 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     scrollbar-width: none;
-    /* Firefox */
     -ms-overflow-style: none;
-    /* IE and Edge */
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
 body::-webkit-scrollbar {
     display: none;
 }
@@ -90,7 +86,6 @@ h3,
     letter-spacing: -0.02em;
 }
 
-/* HEADER */
 .header {
     position: fixed;
     top: 0;
@@ -120,7 +115,6 @@ h3,
     align-items: center;
     text-decoration: none;
     z-index: 1001;
-    /* Stay above mobile menu */
 }
 
 .logo img {
@@ -154,9 +148,7 @@ h3,
     transition: var(--transition);
     position: relative;
     display: inline-block;
-    /* Essential for transform */
     transform-origin: bottom;
-    /* Keeps the underline stable */
 }
 
 .header nav a::after {
@@ -166,7 +158,6 @@ h3,
     left: 0;
     width: 0;
     height: 3px;
-    /* Slightly thicker as requested */
     background: var(--accent);
     transition: var(--transition);
 }
@@ -186,7 +177,6 @@ h3,
     gap: 6px;
     cursor: pointer;
     z-index: 1001;
-    /* Ensure it stays above nav.active */
 }
 
 .burger span {
@@ -208,8 +198,6 @@ h3,
     transform: translateY(-8px) rotate(-45deg);
 }
 
-/* HERO */
-/* HERO */
 .hero {
     height: 100vh;
     background:
@@ -224,15 +212,12 @@ h3,
     overflow: hidden;
 }
 
-/* SMOOTH FOG DISPERSION */
 .hero-fog {
     position: absolute;
     bottom: -1px;
-    /* Overlap to hide seam */
     left: 0;
     width: 100%;
     height: 160px;
-    /* Longer dispersion zone */
     background: linear-gradient(to top,
             var(--light) 0%,
             rgba(0, 49, 41, 0.7) 30%,
@@ -284,14 +269,12 @@ h3,
 }
 
 .btn:hover {
-    background: #bc8a5f;
     background: var(--accent-hover);
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     color: #ffffff !important;
 }
 
-/* Page transitions animations simplified to avoid issues */
 @keyframes fadeInPage {
     from {
         opacity: 0;
@@ -311,12 +294,10 @@ h3,
     transition: opacity 0.5s ease-in-out;
 }
 
-/* ABOUT */
 .about {
     padding: 180px 80px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* Split into two even halves */
     gap: 100px;
     align-items: center;
     background: var(--primary);
@@ -338,23 +319,22 @@ h3,
 .about p {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.95);
-    /* Brighter white for better readibility */
     text-align: justify;
     line-height: 1.9;
     font-weight: 300;
 }
 
-/* IMAGE STYLING */
 .about-image {
     position: relative;
-    padding-right: 20px;
+    width: 100%;
+    /* Move width constraint here */
+    max-width: 550px;
 }
 
 .about-image img {
-    width: 90%;
-    /* Slight width reduction */
-    height: 440px;
-    /* Reduced by 20% from 550px */
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    height: auto;
     object-fit: cover;
     border-radius: 12px;
     position: relative;
@@ -363,28 +343,18 @@ h3,
     transition: var(--transition);
 }
 
-/* REFINED SOFT BLUR */
 .about-image::before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 90%;
-    height: 45%;
-    /* Small increase for softer masking */
-    /* Only background color at the very bottom */
+    width: 100%;
+    /* Match image width perfectly */
+    height: 150px;
     background: linear-gradient(to top,
             var(--primary) 0%,
-            rgba(0, 49, 41, 0.4) 40%,
+            rgba(0, 49, 41, 0.5) 40%,
             transparent 100%);
-
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-
-    /* GRADUAL BLUR MASKING: This makes the blur itself fade out! */
-    mask-image: linear-gradient(to top, black 25%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, black 25%, transparent 100%);
-
     z-index: 3;
     border-radius: 0 0 12px 12px;
     pointer-events: none;
@@ -395,10 +365,10 @@ h3,
     content: '';
     position: absolute;
     top: 30px;
-    /* Adjusted shadow offset */
-    right: 0;
-    width: 90%;
-    height: 440px;
+    left: 20px;
+    /* Shift to create the offset effect on the right */
+    width: 100%;
+    height: 100%;
     border: 2px solid var(--accent);
     border-radius: 12px;
     z-index: 1;
@@ -418,33 +388,37 @@ h3,
 @media (max-width: 1024px) {
     .about {
         grid-template-columns: 1fr;
-        padding: 100px 40px;
-        gap: 60px;
+        padding: 80px 20px;
+        gap: 40px;
+        text-align: center;
     }
 
-    /* Fix for About Image on Mobile */
+    .about-content {
+        max-width: 100%;
+    }
+
     .about-image {
         width: 100%;
+        padding-right: 0;
         display: flex;
         justify-content: center;
+        position: relative;
     }
 
     .about-image img {
         width: 100%;
         height: auto;
-        /* Allow height to adjust automatically based on image ratio */
-        max-height: 500px;
-        /* Optional cap so it's not too tall */
-        object-fit: contain;
-        /* Show FULL image, no cropping */
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 12px;
     }
 
     .about-image::after {
-        /* Adjust border frame to match image size */
-        height: 100%;
+        display: none;
+    }
+
+    .about-image::before {
         width: 100%;
-        top: 15px;
-        right: -15px;
     }
 }
 
@@ -465,7 +439,6 @@ h3,
     z-index: -1;
 }
 
-/* PROJECTS & STYLES */
 .projects,
 .styles {
     padding: 180px 80px 120px;
@@ -478,7 +451,6 @@ h3,
 .styles h2 {
     font-size: clamp(32px, 4vw, 48px);
     margin-bottom: 100px;
-    /* Increased distance from the grid */
     text-align: center;
     color: var(--accent);
     text-transform: uppercase;
@@ -501,13 +473,20 @@ h3,
 }
 
 .project-grid,
-/* PROJECT GRID LAYOUT */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    /* Responsive grid: 3-4 items per row */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
-    padding: 0 50px;
+    padding: 0 80px;
+}
+
+@media (max-width: 768px) {
+
+    .project-grid,
+    .projects-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
 }
 
 .project-card,
@@ -519,11 +498,8 @@ h3,
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transition: var(--transition);
     border: 1px solid rgba(255, 255, 255, 0.05);
-
-    /* Fixed Aspect Ratio (e.g. 4:3) */
     aspect-ratio: 4/3;
     width: 100%;
-    /* No manual height! Aspect ratio handles it */
 }
 
 .project-card img,
@@ -531,7 +507,6 @@ h3,
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* ESSENTIAL: Fills the card without black bars */
     display: block;
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -541,19 +516,14 @@ h3,
     bottom: 0;
     left: 0;
     width: 100%;
-    /* Gradient matching the screenshot: Accent -> Semi-transparent -> Transparent */
     background: linear-gradient(to top, rgba(134, 50, 26, 0.95) 0%, rgba(134, 50, 26, 0.6) 50%, transparent 100%);
     padding: 60px 30px 30px;
-    /* More top padding for the gradient fade */
     color: white;
     z-index: 2;
     transform: translateY(100%);
-    /* Hidden by default */
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: var(--transition);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-top: none;
-    /* Removed border to match smooth upgrade */
 }
 
 .card-overlay h3 {
@@ -562,26 +532,23 @@ h3,
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    text-align: left;
 }
 
-/* HOVER EFFECTS */
 .project-card:hover .card-overlay,
 .style-card:hover .card-overlay {
     transform: translateY(0);
-    /* Show on hover */
 }
 
 .project-card:hover,
 .style-card:hover {
     box-shadow: 0 20px 50px rgba(134, 50, 26, 0.3);
-    /* Orange accent glow */
     border-color: var(--accent);
 }
 
 .project-card:hover img,
 .style-card:hover img {
     transform: scale(1.1);
-    /* Zoom effect */
 }
 
 .project-card:hover span,
@@ -589,12 +556,6 @@ h3,
     transform: translateY(0);
 }
 
-/* Mobile adjustments for specific card view issues */
-
-
-
-
-/* CONTACT SECTION REDESIGN */
 .contact {
     padding: 160px 80px;
     background: linear-gradient(to bottom, var(--primary), #00251f);
@@ -654,29 +615,24 @@ h3,
     text-transform: uppercase;
     letter-spacing: 2px;
     color: rgba(255, 255, 255, 0.5);
-    /* Semi-transparent white to match link */
     transition: var(--transition);
 }
 
 .contact-item a {
     font-size: 24px;
     color: rgba(255, 255, 255, 0.5);
-    /* Semi-transparent white */
     text-decoration: none;
     transition: var(--transition);
 }
 
 .contact-item:hover span {
     color: white;
-    /* Changed label to white on hover as requested */
 }
 
 .contact-item:hover a {
     color: white;
-    /* Made link white on hover as requested */
 }
 
-/* Form Styles */
 .contact-form-box {
     background: rgba(255, 255, 255, 0.02);
     padding: 60px;
@@ -749,98 +705,146 @@ h3,
     .contact-form-box {
         padding: 40px 30px;
     }
-
-    /* Footer Mobile Adjustments */
-    .footer {
-        flex-direction: column;
-        gap: 30px;
-        text-align: center;
-        padding: 40px 20px;
-    }
-
-    .footer-left {
-        order: 2;
-        /* Move copyright/contacts to bottom */
-    }
-
-    .footer-social {
-        flex-direction: column;
-        /* Stack icons vertically */
-        gap: 20px;
-        order: 1;
-        /* Move socials to top */
-        width: 100%;
-        align-items: center;
-    }
-
-    .footer-social a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-        max-width: 200px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-    }
 }
 
-/* FOOTER */
+
+
 .footer {
-    background: #00251f;
+    background: #001a16;
     color: white;
-    padding: 60px 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 100px 40px 40px;
+    /* Reduced side padding */
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 60px;
+}
+
+.footer-column h3 {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.footer-logo {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.footer-logo span {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    margin-top: -5px;
+}
+
+.footer-description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 300px;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+    padding-left: 5px;
+}
+
+.footer-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-contact-info a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 15px;
+    transition: var(--transition);
+}
+
+.footer-contact-info a:hover {
+    color: white;
+}
+
+.footer-contact-info p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4) !important;
+    margin: 0 !important;
 }
 
 .footer-social {
     display: flex;
-    gap: 20px;
+    gap: 15px;
 }
 
 .footer-social a {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 24px;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
     transition: var(--transition);
-    display: inline-block;
 }
 
 .footer-social a:hover {
-    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
     transform: translateY(-5px);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 20px rgba(134, 50, 26, 0.3);
 }
 
-#contactsDisplay a {
-    display: block;
-    font-size: 16px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.9) !important;
-    margin-bottom: 5px;
-    transition: var(--transition);
-    text-decoration: none;
+.footer-bottom {
+    max-width: 1200px;
+    margin: 60px auto 0;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
 }
 
-#contactsDisplay a:hover {
-    color: #fff !important;
+.footer-bottom p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.3) !important;
+    margin: 0 !important;
 }
 
-.footer p {
-    font-size: 14px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.4) !important;
-    margin-top: 20px;
-}
-
-/* REVEAL */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform, opacity;
 }
 
@@ -849,7 +853,6 @@ h3,
     transform: translateY(0);
 }
 
-/* MODAL RE-DESIGN */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -857,7 +860,6 @@ h3,
     width: 100%;
     height: 100%;
     background: rgba(0, 20, 18, 0.85);
-    /* Deep thematic dark overlay */
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     z-index: 10000;
@@ -879,12 +881,10 @@ h3,
     width: 100%;
     max-width: 1240px;
     height: 600px;
-    /* STRICT FIXED HEIGHT */
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
-    /* USING FLEX INSTEAD OF GRID FOR BETTER CONTROL */
-    flex-direction: row;
+    flex-direction: row-reverse;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 100px 100px rgba(0, 0, 0, 0.6);
@@ -916,7 +916,7 @@ h3,
     border-radius: 50%;
     cursor: pointer;
     z-index: 100;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     transition: var(--transition);
@@ -927,15 +927,15 @@ h3,
     transform: rotate(90deg);
 }
 
-/* MODAL GALLERY - LEFT SIDE */
 .modal-gallery {
-    width: 45%;
-    /* Left column width */
+    width: 60%;
     height: 100%;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
 }
+
+
 
 .modal-slider {
     position: absolute;
@@ -962,11 +962,9 @@ h3,
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* ABSOLUTELY ESSENTIAL */
     display: block;
 }
 
-/* MODAL INFO - RIGHT SIDE */
 .modal-body {
     padding: 50px;
     background: #003129;
@@ -974,7 +972,6 @@ h3,
     flex-direction: column;
     color: white;
     width: 55%;
-    /* Right column width */
     height: 100%;
     position: relative;
 }
@@ -996,22 +993,25 @@ h3,
     font-weight: 300;
     overflow-y: auto;
     flex-grow: 1;
-    /* Pushes button down */
     padding-right: 10px;
 }
 
-/* Scrollbar for description */
 .modal-body p::-webkit-scrollbar {
-    width: 6px;
+    display: none;
 }
 
-.modal-body p::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+.modal-body p {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-.modal-body p::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    border-radius: 3px;
+.modal-content::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-content {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .modal-order-btn {
@@ -1023,7 +1023,6 @@ h3,
     font-weight: 700;
     letter-spacing: 1px;
     margin-top: auto;
-    /* MAGIC: Pushes to bottom */
     flex-shrink: 0;
     cursor: pointer;
     border: none;
@@ -1035,89 +1034,64 @@ h3,
     background: var(--accent-hover);
 }
 
-/* Modal Mobile Adaptation (App-like feel) */
 @media (max-width: 1024px) {
     .modal-content {
         flex-direction: column;
-        height: 85vh;
-        /* Fixed height for consistent UI */
-        max-height: 85vh;
-        display: flex;
-        width: 90%;
-        /* Wider on mobile */
+        height: 90vh;
+        max-height: 90vh;
+        width: 95%;
         margin: auto;
+        overflow-y: auto;
+        border-radius: 20px;
     }
 
-    /* Top Image Section */
     .modal-gallery {
         width: 100%;
-        height: auto;
-        aspect-ratio: 4/3;
-        /* Standard rectangle */
+        height: 350px;
         flex-shrink: 0;
-        /* Do not shrink */
-        order: 1;
     }
 
-    .modal-slider {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
+    .modal-slider,
+    .slide,
+    .slide img {
         height: 100%;
     }
 
-    /* Bottom Info Section */
     .modal-body {
         width: 100%;
-        flex: 1;
-        /* Take all remaining height */
-        order: 2;
-        padding: 25px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        /* Important for inner scroll */
+        padding: 30px 20px;
+        flex: none;
     }
 
     .modal-body h2 {
-        font-size: 24px;
-        margin-bottom: 15px;
-        flex-shrink: 0;
+        font-size: 32px;
+        margin-bottom: 20px;
+        color: var(--accent) !important;
     }
 
     .modal-body p {
-        font-size: 15px;
-        line-height: 1.5;
-        margin-bottom: 20px;
-        overflow-y: auto;
-        /* Scrollable description */
-        flex-grow: 1;
-        padding-right: 5px;
-    }
-
-    .modal-order-btn {
-        padding: 16px 0;
-        font-size: 14px;
-        margin-top: auto;
-        /* Stick to bottom */
-        flex-shrink: 0;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        overflow: visible;
     }
 
     .close-modal {
-        top: 10px;
-        right: 10px;
+        top: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
         background: rgba(0, 0, 0, 0.6);
-        width: 35px;
-        height: 35px;
-        font-size: 20px;
-        backdrop-filter: blur(5px);
+        color: white;
+        border-radius: 50%;
+        font-size: 24px;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
-
-
-/* SLIDER */
 .modal-slider {
     position: relative;
     height: 600px;
@@ -1146,16 +1120,16 @@ h3,
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     width: 60px;
     height: 60px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 24px;
     transition: var(--transition);
     display: flex;
     align-items: center;
@@ -1164,8 +1138,7 @@ h3,
 }
 
 .slider-btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.3);
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -1177,71 +1150,103 @@ h3,
     right: 30px;
 }
 
-/* MODAL INFO */
 .modal-body {
     padding: 60px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    height: 100%;
+    /* Take full height of modal-content */
     color: white;
+    box-sizing: border-box;
 }
 
 .modal-body h2 {
     font-size: 42px;
     margin-bottom: 20px;
-    color: var(--accent);
+    color: var(--accent) !important;
+    flex-shrink: 0;
 }
 
-.modal-body p {
+#modalInfo {
     font-size: 18px;
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 40px;
+    overflow-y: auto;
+    flex-grow: 1;
+    /* Take all available space */
+    padding-right: 15px;
+    /* Space for hidden scrollbar area */
+}
+
+/* Ensure no scrollbar is visible but scrolling works */
+#modalInfo::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+
+#modalInfo {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .modal-order-btn {
     align-self: flex-start;
+    flex-shrink: 0;
+    margin-top: auto;
+    /* Push to bottom */
 }
 
-@media (max-width: 1024px) {
-    .modal-content {
-        grid-template-columns: 1fr;
-        max-height: 95vh;
-        overflow-y: auto;
-    }
-
-    .modal-slider {
-        height: 400px;
-    }
-
-    .modal-body {
-        padding: 40px;
-    }
+.close-modal {
+    display: none !important;
+    /* Remove entirely as requested */
 }
 
-/* RESPONSIVE */
 @media (max-width: 1024px) {
     .header {
-        padding: 20px 40px;
+        padding: 15px 25px;
+    }
+
+    .header.scrolled {
+        padding: 10px 25px;
     }
 
     .hero {
-        padding: 0 40px;
+        padding: 0 25px;
+        text-align: center;
+        justify-content: center;
     }
 
     .about,
-    .contact {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .about {
-        padding: 80px 40px;
-    }
-
+    .contact,
     .projects,
     .styles {
-        padding: 80px 40px;
+        padding: 80px 25px;
+    }
+
+    /* Footer Responsive Fix */
+    .footer {
+        padding: 60px 20px 30px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr !important;
+        gap: 50px;
+        text-align: center;
+    }
+
+    .footer-column {
+        align-items: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .footer-description {
+        display: none !important;
+    }
+
+    .footer-social {
+        justify-content: center !important;
     }
 }
 
@@ -1263,7 +1268,6 @@ h3,
         width: 100%;
         height: 100vh;
         background: rgba(0, 37, 31, 0.98);
-        /* Dark background matching the brand */
         backdrop-filter: blur(15px);
         padding: 120px 40px;
         gap: 30px;
@@ -1283,7 +1287,6 @@ h3,
         color: var(--accent) !important;
     }
 
-    /* MODAL MOBILE */
     .modal-content {
         grid-template-columns: 1fr;
         max-height: 95vh;
@@ -1301,7 +1304,6 @@ h3,
     }
 }
 
-/* Hide slider buttons if only one slide */
 .slides-container:only-child~.slider-btn {
     display: none;
 }

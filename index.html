@@ -44,7 +44,7 @@
 
         <section id="about" class="about">
             <div class="about-content">
-                <h2>OYU</h2>
+                <h2>О нас</h2>
                 <p>
                     OYU Design Group — студия интерьерного дизайна, создающая индивидуальные и функциональные
                     пространства, отражающие стиль жизни и ценности клиента.
@@ -105,17 +105,32 @@
         </section>
 
         <footer class="footer">
-            <div class="footer-left">
-                <div id="contactsDisplay"></div>
-                <p>© OYU Design Group</p>
+            <div class="footer-container">
+                <div class="footer-column footer-brand">
+                    <h2 class="footer-logo">OYU <span>DESIGN GROUP</span></h2>
+                    <p class="footer-description">Создаем исключительные интерьеры, объединяя функциональность и
+                        современный стиль.</p>
+                </div>
+
+                <div class="footer-column footer-contact-col">
+                    <h3>Контакты</h3>
+                    <div id="contactsDisplay" class="footer-contact-info"></div>
+                </div>
+
+                <div class="footer-column footer-social-col">
+                    <h3>Следите за нами</h3>
+                    <div class="footer-social">
+                        <a href="#" target="_blank" title="Адрес" id="mainAddressIcon"><i
+                                class="fas fa-map-marker-alt"></i></a>
+                        <a href="https://wa.me/996997007755" target="_blank" title="WhatsApp"><i
+                                class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/oyu.design.group?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                            target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
             </div>
-            <div class="footer-social">
-                <a href="https://t.me/+996997007755" target="_blank" title="Telegram"><i
-                        class="fab fa-telegram"></i></a>
-                <a href="https://wa.me/996997007755" target="_blank" title="WhatsApp"><i
-                        class="fab fa-whatsapp"></i></a>
-                <a href="https://www.instagram.com/oyu.design.group?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                    target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <div class="footer-bottom">
+                <p>© <span id="currentYear"></span> OYU Design Group. Все права защищены.</p>
             </div>
         </footer>
     </div>
@@ -124,6 +139,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     <script src="firebase-app.js"></script>
     <script src="script.js"></script>
 </body>

@@ -1,6 +1,5 @@
 const PASSWORD = "luiza25041999";
 
-/* FORCE CLEAR LEGACY DATA ONCE */
 if (!localStorage.getItem("data_wiped_v2")) {
     localStorage.removeItem("projects");
     localStorage.removeItem("styles");
@@ -8,7 +7,6 @@ if (!localStorage.getItem("data_wiped_v2")) {
     console.log("Legacy data wiped.");
 }
 
-/* LOGIN */
 async function login() {
     const btn = event?.target || document.querySelector('#loginSection button');
     if (btn) btn.disabled = true;
@@ -20,9 +18,7 @@ async function login() {
     const password = adminPassInput.value;
 
     if (auth) {
-        // Firebase Login
         try {
-            // Using a designated admin email. Setup this user in Firebase Auth!
             await auth.signInWithEmailAndPassword('admin@oyudesign.group', password);
             if (loginSection) loginSection.style.display = "none";
             if (adminPanel) adminPanel.style.display = "block";
@@ -32,7 +28,6 @@ async function login() {
             if (btn) btn.disabled = false;
         }
     } else {
-        // Local Fallback
         if (password === PASSWORD) {
             if (loginSection) loginSection.style.display = "none";
             if (adminPanel) adminPanel.style.display = "block";
@@ -43,7 +38,6 @@ async function login() {
     }
 }
 
-/* BURGER */
 const burger = document.getElementById("burger");
 const nav = document.getElementById("nav");
 burger?.addEventListener("click", () => {
@@ -57,54 +51,39 @@ nav?.querySelectorAll('a').forEach(link => {
     });
 });
 
-// Admin login with Enter key
 document.getElementById("adminPass")?.addEventListener("keypress", (e) => {
     if (e.key === "Enter") login();
 });
 
-/* DATA */
-/* DATA */
 const defaultProjects = [];
-
 const defaultStyles = [];
 
 let projects = [];
 let stylesList = [];
 
-// Ensure defaults are available if needed
 const initialProjects = defaultProjects;
 const initialStyles = defaultStyles;
 
 async function initData() {
-    // Show Loading
     const gridP = document.getElementById("projectsGrid");
     const gridS = document.getElementById("stylesGrid");
-    if (gridP) gridP.innerHTML = '<div class="loader" style="text-align:center; width:100%; padding: 40px;">Загрузка проектов...</div>';
-    if (gridS) gridS.innerHTML = '<div class="loader" style="text-align:center; width:100%; padding: 40px;">Загрузка стилей...</div>';
+    if (gridP) gridP.innerHTML = '<div style="text-align:center; width:100%; padding: 40px; color:rgba(255,255,255,0.5);">Загрузка...</div>';
+    if (gridS) gridS.innerHTML = '<div style="text-align:center; width:100%; padding: 40px; color:rgba(255,255,255,0.5);">Загрузка...</div>';
 
     if (db) {
         try {
-            // Projects
-            const pSnap = await db.collection('projects').get();
-            if (!pSnap.empty) {
-                projects = pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            } else {
-                projects = []; // Ensure empty array if no docs
-            }
+            const [pSnap, sSnap] = await Promise.all([
+                db.collection('projects').get(),
+                db.collection('styles').get()
+            ]);
 
-            // Styles
-            const sSnap = await db.collection('styles').get();
-            if (!sSnap.empty) {
-                stylesList = sSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            } else {
-                stylesList = []; // Ensure empty array
-            }
-            console.log("Data loaded from Firebase");
+            projects = pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            stylesList = sSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            console.log("Firebase data loaded:", { projects: projects.length, styles: stylesList.length });
         } catch (e) {
-            console.error("Error loading from Firebase:", e);
-            // On error, fall back to empty local
-            projects = [];
-            stylesList = [];
+            console.error("Firebase Error:", e);
+            loadLocal();
         }
     } else {
         loadLocal();
@@ -119,7 +98,6 @@ function loadLocal() {
     projects = JSON.parse(localStorage.getItem("projects")) || initialProjects;
     stylesList = JSON.parse(localStorage.getItem("styles")) || initialStyles;
 
-    // Ensure sync defaults
     if (!localStorage.getItem("projects")) localStorage.setItem("projects", JSON.stringify(projects));
     if (!localStorage.getItem("styles")) localStorage.setItem("styles", JSON.stringify(stylesList));
     console.log("Data loaded from LocalStorage");
@@ -128,12 +106,10 @@ function loadLocal() {
 let editingProjectIndex = -1;
 let editingStyleIndex = -1;
 
-/* RENDER */
 function renderProjects() {
     const grid = document.getElementById("projectsGrid");
     const list = document.getElementById("projectList");
 
-    // Grid (Public View)
     if (grid) {
         if (projects.length === 0) {
             grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Проекты пока не добавлены.</p>';
@@ -149,7 +125,6 @@ function renderProjects() {
         }
     }
 
-    // List (Admin View)
     if (list) {
         list.innerHTML = projects.map((p, i) =>
             `<div class="admin-item">
@@ -167,7 +142,6 @@ function renderStyles() {
     const grid = document.getElementById("stylesGrid");
     const list = document.getElementById("styleList");
 
-    // Grid (Public View)
     if (grid) {
         if (stylesList.length === 0) {
             grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Готовые проекты пока не добавлены.</p>';
@@ -183,7 +157,6 @@ function renderStyles() {
         }
     }
 
-    // List (Admin View)
     if (list) {
         list.innerHTML = stylesList.map((s, i) =>
             `<div class="admin-item">
@@ -197,17 +170,12 @@ function renderStyles() {
     }
 }
 
-/* MODAL LOGIC */
 function createModal() {
     if (document.getElementById('modalOverlay')) return;
     const modalHTML = `
         <div id="modalOverlay" class="modal-overlay">
             <div class="modal-content">
-                <div class="modal-body">
-                    <h2 id="modalTitle"></h2>
-                    <p id="modalInfo"></p>
-                    <button class="btn modal-order-btn" onclick="orderNow()">Сделать заказ интерьера</button>
-                </div>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
                 <div class="modal-gallery">
                     <div class="modal-slider">
                         <div class="slides-container" id="slidesContainer"></div>
@@ -215,12 +183,16 @@ function createModal() {
                         <button class="slider-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
                     </div>
                 </div>
+                <div class="modal-body">
+                    <h2 id="modalTitle"></h2>
+                    <p id="modalInfo"></p>
+                    <button class="btn modal-order-btn" onclick="orderNow()">Сделать заказ</button>
+                </div>
             </div>
         </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-    // Добавляем закрытие при клике по фону
     document.getElementById('modalOverlay').addEventListener('click', (e) => {
         if (e.target.id === 'modalOverlay') closeModal();
     });
@@ -250,7 +222,6 @@ function openModal(type, index) {
         `).join("");
     } else {
         content.classList.remove('no-slider');
-        // Seamless loop clones
         const first = sliderImages[0];
         const last = sliderImages[sliderImages.length - 1];
         const loopedImages = [last, ...sliderImages, first];
@@ -261,10 +232,10 @@ function openModal(type, index) {
             </div>
         `).join("");
 
-        currentSlideIndex = 1; // Start at real first slide
+        currentSlideIndex = 1;
     }
 
-    updateSliderPosition(true); // Immediate jump
+    updateSliderPosition(true);
 
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -283,7 +254,6 @@ function moveSlide(n) {
     currentSlideIndex += n;
     updateSliderPosition();
 
-    // Check for "phantom" slides
     if (currentSlideIndex >= slides.length - 1) {
         setTimeout(() => {
             currentSlideIndex = 1;
@@ -315,7 +285,6 @@ function orderNow() {
     }
 }
 
-/* HELPER: AUTO-CONVERT GOOGLE DRIVE LINKS */
 function fixLink(link) {
     if (!link || typeof link !== 'string') return link;
     const s = link.trim();
@@ -333,7 +302,30 @@ function fixLink(link) {
     return s;
 }
 
-/* DYNAMIC GALLERY INPUTS */
+async function uploadFile(input, type) {
+    const file = input.files[0];
+    if (!file || !storage) return;
+
+    const originalText = input.previousElementSibling ? "Загрузка..." : "Загрузка...";
+    const parent = input.parentElement;
+    const textInput = parent.querySelector('input[type="text"]');
+
+    try {
+        const fileName = `${Date.now()}_${file.name}`;
+        const storageRef = storage.ref(`images/${fileName}`);
+        const uploadTask = await storageRef.put(file);
+        const downloadURL = await uploadTask.ref.getDownloadURL();
+
+        if (textInput) {
+            textInput.value = downloadURL;
+            alert("Фото успешно загружено!");
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Ошибка загрузки: " + e.message);
+    }
+}
+
 function addGalleryInput(containerId, className, value = "") {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -351,6 +343,12 @@ function addGalleryInput(containerId, className, value = "") {
     input.value = value;
     input.style.flex = "1";
 
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.style.width = "200px";
+    const type = className.includes('project') ? 'project' : 'style';
+    fileInput.onchange = function () { uploadFile(this, type); };
+
     const btn = document.createElement("button");
     btn.type = "button";
     btn.innerText = "X";
@@ -362,6 +360,7 @@ function addGalleryInput(containerId, className, value = "") {
     btn.onclick = function () { container.removeChild(div); };
 
     div.appendChild(input);
+    div.appendChild(fileInput);
     div.appendChild(btn);
     container.appendChild(div);
 }
@@ -376,7 +375,6 @@ function getGalleryValues(className) {
     return links;
 }
 
-/* ADMIN ACTIONS */
 async function addProject() {
     const title = document.getElementById("projectTitle").value;
     const imgInput = document.getElementById("projectImg").value;
@@ -417,7 +415,6 @@ async function addProject() {
             alert("Проект добавлен");
         } else {
             projects[editingProjectIndex] = projectData;
-
             alert("Изменения сохранены");
         }
         localStorage.setItem("projects", JSON.stringify(projects));
@@ -427,13 +424,16 @@ async function addProject() {
     editingProjectIndex = -1;
     document.getElementById("addProjectBtn").innerText = "Добавить проект";
 
-    // Clear inputs
     document.getElementById("projectTitle").value = "";
     document.getElementById("projectImg").value = "";
     document.getElementById("projectInfo").value = "";
-    // Reset gallery inputs
     const container = document.getElementById("projectGalleryContainer");
-    if (container) container.innerHTML = '<div class="dynamic-input"><input type="text" class="project-gallery-item" placeholder="Ссылка на фото"></div>';
+    if (container) container.innerHTML = `
+        <div class="dynamic-input" style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <input type="text" class="project-gallery-item" placeholder="Ссылка на фото" style="flex: 1;">
+            <input type="file" onchange="uploadFile(this, 'project')" style="width: 200px;">
+        </div>
+    `;
 }
 
 function editProject(i) {
@@ -447,16 +447,13 @@ function editProject(i) {
     const btn = document.getElementById("addProjectBtn");
     if (btn) btn.innerText = "Сохранить изменения";
 
-    // Populate gallery inputs
     const container = document.getElementById("projectGalleryContainer");
     if (container) {
         container.innerHTML = "";
-        // Skip first image as it is the main one, adding rest to inputs
         const galleryImages = projects[i].images.slice(1);
         if (galleryImages.length > 0) {
             galleryImages.forEach(src => addGalleryInput('projectGalleryContainer', 'project-gallery-item', src));
         } else {
-            // Add one empty if none
             addGalleryInput('projectGalleryContainer', 'project-gallery-item');
         }
     }
@@ -529,12 +526,16 @@ async function addStyle() {
     editingStyleIndex = -1;
     document.getElementById("addStyleBtn").innerText = "Добавить стиль";
 
-    // Clear inputs
     document.getElementById("styleTitle").value = "";
     document.getElementById("styleImg").value = "";
     document.getElementById("styleInfo").value = "";
     const container = document.getElementById("styleGalleryContainer");
-    if (container) container.innerHTML = '<div class="dynamic-input"><input type="text" class="style-gallery-item" placeholder="Ссылка на фото"></div>';
+    if (container) container.innerHTML = `
+        <div class="dynamic-input" style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <input type="text" class="style-gallery-item" placeholder="Ссылка на фото" style="flex: 1;">
+            <input type="file" onchange="uploadFile(this, 'style')" style="width: 200px;">
+        </div>
+    `;
 }
 
 function editStyle(i) {
@@ -559,7 +560,6 @@ function editStyle(i) {
         }
     }
 
-    // Scroll to styles section
     const sections = document.querySelectorAll('#adminPanel section');
     if (sections[1]) window.scrollTo({ top: sections[1].offsetTop, behavior: 'smooth' });
 }
@@ -582,11 +582,11 @@ async function deleteStyle(i) {
     }
 }
 
-/* CONTACTS */
 async function saveContacts() {
     const phone = document.getElementById("phone").value;
     const email = document.getElementById("email").value;
-    const data = { phone, email };
+    const address = document.getElementById("address").value;
+    const data = { phone, email, address };
 
     if (db) {
         try {
@@ -617,13 +617,16 @@ async function loadContacts() {
 
     if (document.getElementById("phone")) document.getElementById("phone").value = contacts.phone;
     if (document.getElementById("email")) document.getElementById("email").value = contacts.email;
+    if (document.getElementById("address")) document.getElementById("address").value = contacts.address || "";
 
     const cleanPhone = contacts.phone.replace(/[^+\d]/g, '');
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${contacts.email}`;
 
-    // Update Main Section (if index.html)
     const mainPhone = document.getElementById("mainPhone");
     const mainEmail = document.getElementById("mainEmail");
+    const mainAddress = document.getElementById("mainAddress");
+    const mainAddressIcon = document.getElementById("mainAddressIcon");
+
     if (mainPhone) {
         mainPhone.innerText = contacts.phone;
         mainPhone.href = `tel:${cleanPhone}`;
@@ -633,14 +636,25 @@ async function loadContacts() {
         mainEmail.href = gmailUrl;
         mainEmail.target = "_blank";
     }
+    if (mainAddress) {
+        mainAddress.innerText = contacts.address || "Бишкек, Кыргызстан";
+    }
+    if (mainAddressIcon) {
+        mainAddressIcon.href = contacts.address && contacts.address.includes('http') ? contacts.address : "https://2gis.kg/bishkek/geo/70000001099776364";
+    }
 
-    // Update Footer Display
     const display = document.getElementById("contactsDisplay");
     if (display) {
         display.innerHTML = `
             <a href="tel:${cleanPhone}">${contacts.phone}</a>
             <a href="${gmailUrl}" target="_blank">${contacts.email}</a>
+            <p>${contacts.address || ""}</p>
         `;
+    }
+
+    const yearEl = document.getElementById("currentYear");
+    if (yearEl) {
+        yearEl.innerText = new Date().getFullYear();
     }
 }
 
@@ -658,7 +672,6 @@ function copyToClipboard(text, el) {
     });
 }
 
-/* BACKUP */
 function exportData() {
     const data = { projects, styles: stylesList };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
@@ -681,7 +694,6 @@ function importData(e) {
     reader.readAsText(file);
 }
 
-/* SCROLL EFFECT */
 const header = document.querySelector('.header');
 window.addEventListener('scroll', () => {
     if (header) {
@@ -690,7 +702,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-/* PAGE TRANSITIONS */
 document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
@@ -705,12 +716,7 @@ document.querySelectorAll('a').forEach(link => {
     });
 });
 
-/* CONTACT FORM (TELEGRAM INTEGRATION) */
-// Инструкция: 
-// 1. Создайте бота в @BotFather и получите TOKEN
-// 2. Узнайте свой Chat ID (через @userinfobot)
-// 3. Замените значения ниже:
-const TELEGRAM_BOT_TOKEN = '8328663191:AAHz3w5szl0ea_hZYtEvwWeMcYn2DvufQbc'; // <- Здесь должен быть токен от @BotFather (с двоеточием)
+const TELEGRAM_BOT_TOKEN = '8328663191:AAHz3w5szl0ea_hZYtEvwWeMcYn2DvufQbc';
 const TELEGRAM_CHAT_ID = '814722319';
 
 const contactForm = document.getElementById("actualContactForm");
@@ -760,7 +766,6 @@ contactForm?.addEventListener("submit", async (e) => {
     }
 });
 
-// Auto-capitalize first letter
 const nameField = document.getElementById("userName");
 const msgField = document.getElementById("userMessage");
 
@@ -774,14 +779,9 @@ const capitalizeFirst = (e) => {
 nameField?.addEventListener("input", capitalizeFirst);
 msgField?.addEventListener("input", capitalizeFirst);
 
-/* INIT */
 createModal();
 initData();
-// renderProjects(); // Moved to initData
-// renderStyles();   // Moved to initData
-// loadContacts();   // Moved to initData
 
-// Observer for reveals
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add("active");

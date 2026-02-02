@@ -1,12 +1,3 @@
-
-/* FIREBASE CONFIGURATION & INITIALIZATION */
-// 1. Go to https://console.firebase.google.com/
-// 2. Create a new project
-// 3. Enable "Firestore Database" (Start in Test Mode)
-// 4. Enable "Authentication" (Sign-in method: Email/Password)
-// 5. Go to Project Settings -> General -> "Your apps" -> Web app (</>) -> Copy config
-// 6. Paste the values below:
-
 const firebaseConfig = {
     apiKey: "AIzaSyAxfAzAqJqeQnIgEczyY1mxr48oAy2iFzQ",
     authDomain: "oyu-designgroup.firebaseapp.com",
@@ -17,7 +8,6 @@ const firebaseConfig = {
     measurementId: "G-MD04T23JX1"
 };
 
-// Initialize Firebase
 let db = null;
 let auth = null;
 let storage = null;
@@ -27,7 +17,7 @@ try {
         firebase.initializeApp(firebaseConfig);
         db = firebase.firestore();
         auth = firebase.auth();
-        // storage = firebase.storage(); // Uncomment if you enable Storage
+        storage = firebase.storage();
         console.log("Firebase initialized");
     } else {
         console.log("Firebase config missing or SDK not loaded. Using LocalStorage.");

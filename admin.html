@@ -47,20 +47,24 @@
                     </div>
                     <div class="input-group">
                         <label>Главное фото (Обложка)</label>
-                        <input type="text" id="projectImg" placeholder="Вставьте ссылку на фото" required>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="projectImg" placeholder="Вставьте ссылку на фото" required
+                                style="flex: 1;">
+                            <input type="file" onchange="uploadFile(this, 'project-main')" style="width: 200px;">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Галерея (Доп. фото)</label>
                         <div id="projectGalleryContainer">
-                            <!-- Dynamic inputs will go here -->
-                            <div class="dynamic-input">
-                                <input type="text" class="project-gallery-item" placeholder="Ссылка на фото">
+                            <div class="dynamic-input" style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                <input type="text" class="project-gallery-item" placeholder="Ссылка на фото"
+                                    style="flex: 1;">
+                                <input type="file" onchange="uploadFile(this, 'project')" style="width: 200px;">
                             </div>
                         </div>
                         <button type="button" class="btn-add-line"
                             onclick="addGalleryInput('projectGalleryContainer', 'project-gallery-item')">Добавить еще
                             фото</button>
-                        <!-- Hidden input to keep compatibility with old logic if needed, but we will rewrite js -->
                         <input type="hidden" id="projectGallery">
                     </div>
                     <div class="input-group">
@@ -82,13 +86,19 @@
                     </div>
                     <div class="input-group">
                         <label>Главное фото (Обложка)</label>
-                        <input type="text" id="styleImg" placeholder="Вставьте ссылку на фото" required>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="styleImg" placeholder="Вставьте ссылку на фото" required
+                                style="flex: 1;">
+                            <input type="file" onchange="uploadFile(this, 'style-main')" style="width: 200px;">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Галерея (Доп. фото)</label>
                         <div id="styleGalleryContainer">
-                            <div class="dynamic-input">
-                                <input type="text" class="style-gallery-item" placeholder="Ссылка на фото">
+                            <div class="dynamic-input" style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                <input type="text" class="style-gallery-item" placeholder="Ссылка на фото"
+                                    style="flex: 1;">
+                                <input type="file" onchange="uploadFile(this, 'style')" style="width: 200px;">
                             </div>
                         </div>
                         <button type="button" class="btn-add-line"
@@ -115,6 +125,10 @@
                     <label>Email</label>
                     <input type="text" id="email">
                 </div>
+                <div class="input-group">
+                    <label>Адрес</label>
+                    <input type="text" id="address" placeholder="Напр. Бишкек, ул. Киевская 114">
+                </div>
                 <button class="btn-main" onclick="saveContacts()">Сохранить контакты</button>
             </section>
 
@@ -132,6 +146,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     <script src="firebase-app.js"></script>
     <script src="script.js"></script>
 </body>
