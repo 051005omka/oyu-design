@@ -992,6 +992,8 @@ h3,
     margin-bottom: 20px;
     font-weight: 300;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling for iOS shell */
     flex-grow: 1;
     padding-right: 10px;
 }
@@ -1336,4 +1338,96 @@ h3,
 
 .no-slider .slider-btn {
     display: none;
+}
+
+/* Support for Large Monitors (1600px+) */
+@media (min-width: 1600px) {
+
+    .contact-container,
+    .footer-container,
+    .footer-bottom,
+    .modal-content {
+        max-width: 1500px;
+    }
+
+    .about-content {
+        max-width: 800px;
+    }
+
+    .about-image {
+        max-width: 700px;
+    }
+
+    .project-grid,
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 40px;
+    }
+}
+
+/* Support for Ultra-Wide / 30" Monitors (2000px+) */
+@media (min-width: 2000px) {
+    :root {
+        --side-padding: 120px;
+    }
+
+    .header {
+        padding: 40px var(--side-padding);
+    }
+
+    .projects,
+    .styles,
+    .contact {
+        padding: 220px var(--side-padding);
+    }
+
+    .contact-container,
+    .footer-container,
+    .footer-bottom,
+    .modal-content {
+        max-width: 1800px;
+    }
+
+    .about-content {
+        max-width: 1000px;
+    }
+
+    .about h2 {
+        font-size: 72px;
+    }
+
+    .about p {
+        font-size: 22px;
+    }
+
+    .about-image {
+        max-width: 850px;
+    }
+
+    .project-grid,
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        gap: 60px;
+    }
+
+    .hero h1 {
+        font-size: 96px;
+    }
+
+    .hero p {
+        font-size: 28px;
+        max-width: 800px;
+    }
+
+    .modal-content {
+        height: 800px;
+    }
+
+    .modal-body h2 {
+        font-size: 48px;
+    }
+
+    .modal-body p {
+        font-size: 20px;
+    }
 }

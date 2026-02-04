@@ -116,7 +116,7 @@ function renderProjects() {
         } else {
             grid.innerHTML = projects.map((p, i) =>
                 `<div class="project-card reveal" onclick="openModal('projects', ${i})">
-                    <img src="${fixLink(p.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
+                    <img src="${fixLink(p.img)}" referrerpolicy="no-referrer" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
                     <div class="card-overlay">
                         <h3>${p.title}</h3>
                     </div>
@@ -149,7 +149,7 @@ function renderStyles() {
         } else {
             grid.innerHTML = stylesList.map((s, i) =>
                 `<div class="style-card reveal" onclick="openModal('styles', ${i})">
-                    <img src="${fixLink(s.img)}" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
+                    <img src="${fixLink(s.img)}" referrerpolicy="no-referrer" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Not+Found'">
                     <div class="card-overlay">
                         <h3>${s.title}</h3>
                     </div>
@@ -219,7 +219,7 @@ function openModal(type, index) {
         content.classList.add('no-slider');
         slidesContainer.innerHTML = sliderImages.map(img => `
             <div class="slide">
-                <img src="${img}" alt="" onerror="this.src='https://via.placeholder.com/1200x800?text=Image+Not+Found'">
+                <img src="${img}" alt="" referrerpolicy="no-referrer" onerror="this.src='https://via.placeholder.com/1200x800?text=Image+Not+Found'">
             </div>
         `).join("");
     } else {
@@ -230,7 +230,7 @@ function openModal(type, index) {
 
         slidesContainer.innerHTML = loopedImages.map(img => `
             <div class="slide">
-                <img src="${img}" alt="" onerror="this.src='https://via.placeholder.com/1200x800?text=Image+Not+Found'">
+                <img src="${img}" alt="" referrerpolicy="no-referrer" onerror="this.src='https://via.placeholder.com/1200x800?text=Image+Not+Found'">
             </div>
         `).join("");
 
@@ -299,7 +299,8 @@ function fixLink(link) {
                 fileId = s.split('id=')[1].split('&')[0].split('#')[0];
             }
         } catch (e) { return s; }
-        return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : s;
+        // Thumbnail link is often more reliable on iOS then direct dl links
+        return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600` : s;
     }
     return s;
 }
