@@ -92,6 +92,15 @@ async function initData() {
     renderProjects();
     renderStyles();
     loadContacts();
+
+    if (window.location.hash === '#contactForm') {
+        setTimeout(() => {
+            const contactSection = document.getElementById('contactForm');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 500);
+    }
 }
 
 function loadLocal() {
@@ -281,7 +290,9 @@ function orderNow() {
     closeModal();
     const contactSection = document.getElementById('contactForm');
     if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
     } else {
         window.location.href = 'index.html#contactForm';
     }
@@ -791,3 +802,12 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+        }, 800);
+    }
+});

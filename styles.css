@@ -26,6 +26,36 @@
     }
 }
 
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader img {
+    width: 180px;
+    animation: loaderPulse 1.5s infinite;
+}
+
+@keyframes loaderPulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
 @keyframes fadeOutPage {
     from {
         opacity: 1;
@@ -261,6 +291,7 @@ h3,
     letter-spacing: 1px;
     font-size: 14px;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
     position: relative;
     z-index: 1001;
@@ -314,14 +345,17 @@ h3,
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 2px;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 4px 15px rgba(0, 0, 0, 0.6);
 }
 
 .about p {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.95);
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.9);
     text-align: justify;
-    line-height: 1.9;
+    line-height: 1.6;
     font-weight: 300;
+    letter-spacing: 0.02em;
 }
 
 .about-image {
@@ -456,6 +490,8 @@ h3,
     text-transform: uppercase;
     letter-spacing: 0.15em;
     position: relative;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 4px 15px rgba(0, 0, 0, 0.6);
 }
 
 .projects h1::after,
@@ -473,17 +509,27 @@ h3,
 }
 
 .project-grid,
-.projects-grid {
+.projects-grid,
+.style-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     padding: 0 80px;
+}
+
+@media (max-width: 1024px) {
+    .project-grid,
+    .projects-grid,
+    .style-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
 
     .project-grid,
-    .projects-grid {
+    .projects-grid,
+    .style-grid {
         grid-template-columns: 1fr;
         padding: 0 20px;
     }
@@ -732,6 +778,8 @@ h3,
     color: var(--accent);
     margin-bottom: 30px;
     font-weight: 700;
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
 }
 
 .footer-logo {
@@ -1201,7 +1249,6 @@ h3,
 
 .close-modal {
     display: none !important;
-    /* Remove entirely as requested */
 }
 
 @media (max-width: 1024px) {
